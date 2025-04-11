@@ -1,0 +1,42 @@
+server:
+  port: 8093
+
+spring:
+  application:
+    name: customer-v1
+
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2500
+  cache:
+    type: redis #enable cache
+
+configuration:
+  error-messages:
+    Default: No hemos podido realizar tu operación. Estamos trabajando para solucionar el inconveniente.
+
+  cache:
+    menu-and-products:
+      cleaning-frequency: MINUTELY
+
+  rest-clients:
+    web-security-v1:
+      endpoint: ${WEB_AUTH_V1_ENDPOINT:http://localhost:8021/poc/web/security/v1/token}
+      headers:
+        Authorization: ${WEB_AUTH_V1_HEADER_BASIC_AUTH:Basic d2ViLXVzZXI6d2ViLXBhc3N3b3Jk}
+        Ocp-Subscription-Key: ${WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY:web-subscription-key}
+        Content-Type: application/x-www-form-urlencoded
+      form-data:
+        grant_type: client_credentials
+        scope: all
+
+    app-security-v1:
+      endpoint: ${APP_AUTH_V1_ENDPOINT:http://localhost:8021/poc/app/security/v1/token}
+      headers:
+        Authorization: ${APP_AUTH_V1_HEADER_BASIC_AUTH:Basic YXBwLXVzZXI6YXBwLXBhc3N3b3Jk}
+        Ocp-Subscription-Key: ${APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY:app-subscription-key}
+        Content-Type: application/x-www-form-urlencoded
+      form-data:
+        grant_type: client_credentials
+        scope: all

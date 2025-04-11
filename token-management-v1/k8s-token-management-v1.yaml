@@ -1,0 +1,131 @@
+---
+# Source: generic-backend-chart/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: token-management-v1-secret
+type: Opaque
+data:
+  WEB_AUTH_V1_HEADER_BASIC_AUTH: "QmFzaWMgZDJWaUxYVnpaWEk2ZDJWaUxYQmhjM04zYjNKaw=="
+  WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY: "d2ViLXN1YnNjcmlwdGlvbi1rZXk="
+  APP_AUTH_V1_HEADER_BASIC_AUTH: "QmFzaWMgWVhCd0xYVnpaWEk2WVhCd0xYQmhjM04zYjNKaw=="
+  APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY: "YXBwLXN1YnNjcmlwdGlvbi1rZXk="
+---
+# Source: generic-backend-chart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: token-management-v1-config-map
+data:
+    JAVA_OPTS: "-Xms256M -Xmx256M"
+    WEB_AUTH_V1_ENDPOINT: "http://localhost:8094/poc/web/security/v1/token"
+    APP_AUTH_V1_ENDPOINT: "http://localhost:8094/poc/app/security/v1/token"
+---
+# Source: generic-backend-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: token-management-v1
+  labels:
+    app: token-management-v1
+spec:
+  type: NodePort
+  selector:
+    app: token-management-v1
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: token-management-v1
+      port: 8093
+      nodePort: 30093
+---
+# Source: generic-backend-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: token-management-v1
+  labels:
+    app: token-management-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: token-management-v1
+  template:
+    metadata:
+      labels:
+        app: token-management-v1
+    spec:
+      containers:
+        - name: token-management-v1
+          image: "miguelarmasabt/token-management:v1.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8093
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8093
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8093
+            initialDelaySeconds: 60
+            periodSeconds: 30
+
+          env:
+              - name: JAVA_OPTS
+                valueFrom:
+                  configMapKeyRef:
+                    name: token-management-v1-config-map
+                    key: JAVA_OPTS
+
+              - name: WEB_AUTH_V1_ENDPOINT
+                valueFrom:
+                  configMapKeyRef:
+                    name: token-management-v1-config-map
+                    key: WEB_AUTH_V1_ENDPOINT
+
+              - name: APP_AUTH_V1_ENDPOINT
+                valueFrom:
+                  configMapKeyRef:
+                    name: token-management-v1-config-map
+                    key: APP_AUTH_V1_ENDPOINT
+
+              - name: WEB_AUTH_V1_HEADER_BASIC_AUTH
+                valueFrom:
+                  secretKeyRef:
+                    name: token-management-v1-secret
+                    key: WEB_AUTH_V1_HEADER_BASIC_AUTH
+
+              - name: WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: token-management-v1-secret
+                    key: WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY
+
+              - name: APP_AUTH_V1_HEADER_BASIC_AUTH
+                valueFrom:
+                  secretKeyRef:
+                    name: token-management-v1-secret
+                    key: APP_AUTH_V1_HEADER_BASIC_AUTH
+
+              - name: APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: token-management-v1-secret
+                    key: APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY
