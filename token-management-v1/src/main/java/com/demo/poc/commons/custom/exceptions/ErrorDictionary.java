@@ -25,7 +25,8 @@ public enum ErrorDictionary {
     //custom=01
     TOKEN_APP_RESPONSE_NULL("01.01.01", "Token APP response is null", CONFLICT, TokenAppResponseNullException.class),
     NO_SUCH_TOKEN_REPOSITORY("01.01.02", "No such token repository", INTERNAL_SERVER_ERROR, NoSuchTokenRepositoryException.class),
-    INVALID_PLATFORM("01.01.03", "Invalid platform", BAD_REQUEST, InvalidPlatformException.class);
+    INVALID_PLATFORM("01.01.03", "Invalid platform", BAD_REQUEST, InvalidPlatformException.class),
+    NO_SUCH_TOKEN_CACHE_HELPER("01.01.04", "No such token cache helper", INTERNAL_SERVER_ERROR, NoSuchTokenCacheHelperException.class);
 
     private final String code;
     private final String message;

@@ -1,4 +1,4 @@
-package com.demo.poc.entrypoint.search.repository.impl;
+package com.demo.poc.entrypoint.management.repository.impl;
 
 import java.util.Optional;
 
@@ -6,8 +6,8 @@ import com.demo.poc.commons.custom.exceptions.TokenAppResponseNullException;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
 import com.demo.poc.commons.custom.enums.Platform;
 import com.demo.poc.commons.custom.properties.restclient.RestClient;
-import com.demo.poc.entrypoint.search.repository.TokenRepository;
-import com.demo.poc.entrypoint.search.repository.wrapper.TokenResponseWrapper;
+import com.demo.poc.entrypoint.management.repository.TokenRepository;
+import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpEntity;

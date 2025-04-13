@@ -20,6 +20,9 @@ configuration:
     menu-and-products:
       cleaning-frequency: MINUTELY
 
+  selector-class:
+    token-cache-helper: com.demo.poc.entrypoint.management.helper.TokenCacheHelperV1
+
   rest-clients:
     web-security-v1:
       endpoint: ${WEB_AUTH_V1_ENDPOINT:http://localhost:8021/poc/web/security/v1/token}

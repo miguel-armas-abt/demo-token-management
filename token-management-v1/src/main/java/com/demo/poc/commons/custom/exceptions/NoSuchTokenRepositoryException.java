@@ -5,6 +5,6 @@ import com.demo.poc.commons.core.errors.exceptions.GenericException;
 public class NoSuchTokenRepositoryException extends GenericException {
 
     public NoSuchTokenRepositoryException() {
-        super(ErrorDictionary.TOKEN_APP_RESPONSE_NULL.getMessage(), ErrorDictionary.parse(NoSuchTokenRepositoryException.class));
+        super(ErrorDictionary.NO_SUCH_TOKEN_REPOSITORY.getMessage(), ErrorDictionary.parse(NoSuchTokenRepositoryException.class));
     }
 }

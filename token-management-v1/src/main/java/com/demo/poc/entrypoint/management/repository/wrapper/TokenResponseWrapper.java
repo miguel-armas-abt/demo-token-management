@@ -1,4 +1,4 @@
-package com.demo.poc.entrypoint.search.repository.wrapper;
+package com.demo.poc.entrypoint.management.repository.wrapper;
 
 import java.io.Serializable;
 

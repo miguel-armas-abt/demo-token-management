@@ -23,6 +23,8 @@ public class ApplicationProperties {
 
   private Map<String, CacheTemplate> cache;
 
+  private Map<String, Class<?>> selectorClass;
+
   public String searchEndpoint(String serviceName) {
     return searchRestClient(serviceName).getEndpoint();
   }
