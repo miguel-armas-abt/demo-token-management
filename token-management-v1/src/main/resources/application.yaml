@@ -17,11 +17,11 @@ configuration:
     Default: No hemos podido realizar tu operación. Estamos trabajando para solucionar el inconveniente.
 
   cache:
-    menu-and-products:
-      cleaning-frequency: MINUTELY
+    "[poc.tokens]":
+      time-to-live: MINUTE
 
   selector-class:
-    token-cache-helper: com.demo.poc.entrypoint.management.helper.TokenCacheHelperV1
+    token-cache-helper: com.demo.poc.entrypoint.management.helper.TokenCacheHelperV2
 
   rest-clients:
     web-security-v1:

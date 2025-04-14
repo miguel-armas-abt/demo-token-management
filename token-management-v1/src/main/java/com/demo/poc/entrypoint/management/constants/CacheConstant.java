@@ -1,4 +1,4 @@
-package com.demo.poc.commons.custom.cache;
+package com.demo.poc.entrypoint.management.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

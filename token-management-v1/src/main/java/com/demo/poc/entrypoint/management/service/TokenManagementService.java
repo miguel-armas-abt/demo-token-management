@@ -2,7 +2,7 @@ package com.demo.poc.entrypoint.management.service;
 
 import java.util.List;
 
-import com.demo.poc.commons.custom.enums.Platform;
+import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.exceptions.NoSuchTokenCacheHelperException;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
 import com.demo.poc.entrypoint.management.helper.TokenCacheHelper;

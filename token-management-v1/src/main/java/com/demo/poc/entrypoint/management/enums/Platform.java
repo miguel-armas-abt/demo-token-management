@@ -1,4 +1,4 @@
-package com.demo.poc.commons.custom.enums;
+package com.demo.poc.entrypoint.management.enums;
 
 import java.util.Arrays;
 

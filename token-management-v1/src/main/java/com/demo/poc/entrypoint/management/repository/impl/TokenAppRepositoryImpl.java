@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.demo.poc.commons.custom.exceptions.TokenAppResponseNullException;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
-import com.demo.poc.commons.custom.enums.Platform;
+import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.properties.restclient.RestClient;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;

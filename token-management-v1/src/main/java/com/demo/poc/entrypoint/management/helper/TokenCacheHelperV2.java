@@ -1,14 +1,18 @@
 package com.demo.poc.entrypoint.management.helper;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
-import com.demo.poc.commons.custom.cache.CacheConstant;
+import com.demo.poc.commons.custom.properties.cache.TimeToLive;
+import com.demo.poc.entrypoint.management.constants.CacheConstant;
 import com.demo.poc.commons.custom.cache.RedisManager;
-import com.demo.poc.commons.custom.enums.Platform;
+import com.demo.poc.entrypoint.management.enums.Platform;
+import com.demo.poc.commons.custom.properties.ApplicationProperties;
+import com.demo.poc.entrypoint.management.enums.ClockSkew;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
+import com.demo.poc.entrypoint.management.utils.CacheUtils;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenCacheHelperV2 implements TokenCacheHelper {
 
+  private final ApplicationProperties properties;
   private final RedisTemplate<String, Object> redisTemplate;
   private final RedisManager redisManager;
   private final List<TokenRepository> tokenRepositories;
@@ -28,29 +33,28 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   public TokenResponseWrapper getToken(Platform platform) {
     return Optional.of(redisManager.isRedisAvailable())
         .filter(isRedisAvailable -> isRedisAvailable)
-        .map(isRedisAvailable -> buildCacheTokenKey(platform))
-        .map(cacheKey -> Optional.ofNullable((String) redisTemplate.opsForValue().get(cacheKey))
-            .map(tokenJson -> gson.fromJson(tokenJson, TokenResponseWrapper.class))
-            .orElseGet(() -> {
-              TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken();
-              Long ttl = Optional.ofNullable((long) tokenResponse.getExpiresIn())
-                  .map(expireTime -> expireTime - 30L)
-                  .orElse(300L);
-              redisTemplate.opsForValue().set(cacheKey, gson.toJson(tokenResponse), ttl, TimeUnit.SECONDS);
-              String tokenJson = (String) redisTemplate.opsForValue().get(cacheKey);
-              return gson.fromJson(tokenJson, TokenResponseWrapper.class);
-            }))
+        .map(isRedisAvailable -> getTokenFromCacheIfPresent(platform, CacheUtils.buildCacheKey(platform)))
         .orElseGet(() -> this.selectRepository(platform, tokenRepositories).getToken());
+  }
+
+  private TokenResponseWrapper getTokenFromCacheIfPresent(Platform platform, String cacheKey) {
+    String tokenJson = Optional.ofNullable((String) redisTemplate.opsForValue().get(cacheKey))
+        .orElseGet(() -> {
+          TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken();
+          TimeToLive timeToLive = properties.getCache().get(CacheConstant.TOKEN_CACHE_NAME).getTimeToLive();
+          Duration ttl = ClockSkew.getTtlWithClockSkew(tokenResponse, timeToLive);
+          redisTemplate.opsForValue().set(cacheKey, gson.toJson(tokenResponse), ttl);
+          return  (String) redisTemplate.opsForValue().get(cacheKey);
+        });
+    return gson.fromJson(tokenJson, TokenResponseWrapper.class);
   }
 
   @Override
   public void cleanToken(Platform platform) {
-    String cacheKey = buildCacheTokenKey(platform);
-    redisTemplate.delete(cacheKey);
-  }
-
-  private static String buildCacheTokenKey(Platform platform) {
-    return CacheConstant.TOKEN_CACHE_NAME + ":" + platform.name();
+    if(redisManager.isRedisAvailable()) {
+      String cacheKey = CacheUtils.buildCacheKey(platform);
+      redisTemplate.delete(cacheKey);
+    }
   }
 
   @Override

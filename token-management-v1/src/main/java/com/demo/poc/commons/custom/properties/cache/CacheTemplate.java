@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class CacheTemplate implements Serializable {
 
-  private CleaningFrequency cleaningFrequency;
-  private long customTtl;
+  private TimeToLive timeToLive;
+
 }

@@ -2,7 +2,7 @@ package com.demo.poc.entrypoint.management.helper;
 
 import java.util.List;
 
-import com.demo.poc.commons.custom.enums.Platform;
+import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.exceptions.NoSuchTokenRepositoryException;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;

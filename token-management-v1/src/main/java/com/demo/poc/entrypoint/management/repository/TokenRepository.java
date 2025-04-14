@@ -1,6 +1,6 @@
 package com.demo.poc.entrypoint.management.repository;
 
-import com.demo.poc.commons.custom.enums.Platform;
+import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 
 public interface TokenRepository {

@@ -31,7 +31,7 @@ public class TokenResponseWrapper implements Serializable {
     private String scope;
 
     @JsonAlias({"expiresIn", "expires_in"})
-    private int expiresIn;
+    private String expiresIn;
 
     private String jti;
 
