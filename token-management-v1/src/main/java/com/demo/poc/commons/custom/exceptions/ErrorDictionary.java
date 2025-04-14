@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.demo.poc.commons.core.errors.exceptions.GenericException;
 import com.demo.poc.commons.core.errors.exceptions.InvalidFieldException;
+import com.demo.poc.commons.core.errors.exceptions.NoSuchCacheConfigException;
 import com.demo.poc.commons.core.errors.exceptions.NoSuchRestClientException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public enum ErrorDictionary {
     //system=00
     INVALID_FIELD("01.00.01", "Invalid field", BAD_REQUEST, InvalidFieldException.class),
     NO_SUCH_REST_CLIENT("01.00.02", "No such rest client", INTERNAL_SERVER_ERROR, NoSuchRestClientException.class),
+    NO_SUCH_CACHE_CONFIG("01.00.03", "No such cache config", INTERNAL_SERVER_ERROR, NoSuchCacheConfigException.class),
 
     //custom=01
     TOKEN_APP_RESPONSE_NULL("01.01.01", "Token APP response is null", CONFLICT, TokenAppResponseNullException.class),

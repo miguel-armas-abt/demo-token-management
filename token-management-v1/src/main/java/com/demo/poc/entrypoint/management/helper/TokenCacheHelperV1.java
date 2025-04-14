@@ -2,7 +2,6 @@ package com.demo.poc.entrypoint.management.helper;
 
 import java.util.List;
 
-import com.demo.poc.entrypoint.management.constants.CacheConstant;
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
@@ -16,15 +15,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenCacheHelperV1 implements TokenCacheHelper {
 
+    private static final String CACHE_KEY_PREFIX = "poc.tokens";
     private final List<TokenRepository> tokenRepositories;
 
-    @Cacheable(value = CacheConstant.TOKEN_CACHE_NAME, key = "#platform")
+    @Cacheable(value = CACHE_KEY_PREFIX, key = "#platform")
     @Override
     public TokenResponseWrapper getToken(Platform platform) {
         return this.selectRepository(platform, tokenRepositories).getToken();
     }
 
-    @CacheEvict(value = CacheConstant.TOKEN_CACHE_NAME, key = "#platform")
+    @CacheEvict(value = CACHE_KEY_PREFIX, key = "#platform")
     @Override
     public void cleanToken(Platform platform) {
     }

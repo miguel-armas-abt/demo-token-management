@@ -3,6 +3,7 @@ package com.demo.poc.commons.custom.properties;
 import java.util.Map;
 import java.util.Optional;
 
+import com.demo.poc.commons.core.errors.exceptions.NoSuchCacheConfigException;
 import com.demo.poc.commons.core.errors.exceptions.NoSuchRestClientException;
 import com.demo.poc.commons.custom.properties.cache.CacheTemplate;
 import com.demo.poc.commons.custom.properties.restclient.RestClient;
@@ -32,5 +33,10 @@ public class ApplicationProperties {
   private RestClient searchRestClient(String serviceName) {
     return Optional.ofNullable(restClients.get(serviceName))
         .orElseThrow(NoSuchRestClientException::new);
+  }
+
+  public CacheTemplate searchCache(String cacheName) {
+    return Optional.ofNullable(cache.get(cacheName))
+        .orElseThrow(NoSuchCacheConfigException::new);
   }
 }

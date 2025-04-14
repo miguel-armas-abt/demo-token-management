@@ -13,6 +13,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,14 +45,19 @@ public class RedisManager implements CacheManager {
     return redisCacheManager.getCacheNames();
   }
 
-  private org.springframework.data.redis.cache.RedisCacheManager createRedisCacheManager() {
+  private RedisCacheManager createRedisCacheManager() {
     Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-    properties.getCache().forEach((key, value) ->
-        cacheConfigurations.put(key, RedisCacheConfiguration.defaultCacheConfig().entryTtl(TimeToLive.getTtl(value.getTimeToLive()))));
+    properties.getCache()
+        .forEach((configName, cacheTemplate) -> {
+          String cacheKey = cacheTemplate.getKeyPrefix();
+          Duration ttl = TimeToLive.getTtl(cacheTemplate.getTimeToLive());
+          RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig().entryTtl(ttl);
+          cacheConfigurations.put(cacheKey, cacheConfig);
+        });
 
     RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig().entryTtl(FIVE_MINUTES.getTimeToLive());
 
-    return org.springframework.data.redis.cache.RedisCacheManager.builder(redisConnectionFactory)
+    return RedisCacheManager.builder(redisConnectionFactory)
         .cacheDefaults(defaultConfig)
         .withInitialCacheConfigurations(cacheConfigurations)
         .build();

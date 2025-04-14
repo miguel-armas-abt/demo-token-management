@@ -17,8 +17,9 @@ configuration:
     Default: No hemos podido realizar tu operación. Estamos trabajando para solucionar el inconveniente.
 
   cache:
-    "[poc.tokens]":
+    tokens:
       time-to-live: MINUTE
+      key-prefix: poc.tokens
 
   selector-class:
     token-cache-helper: com.demo.poc.entrypoint.management.helper.TokenCacheHelperV2

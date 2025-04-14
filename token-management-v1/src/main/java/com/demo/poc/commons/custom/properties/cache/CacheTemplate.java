@@ -10,5 +10,6 @@ import lombok.Setter;
 public class CacheTemplate implements Serializable {
 
   private TimeToLive timeToLive;
+  private String keyPrefix;
 
 }

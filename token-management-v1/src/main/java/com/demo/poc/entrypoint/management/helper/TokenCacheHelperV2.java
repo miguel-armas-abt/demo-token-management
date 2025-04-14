@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.demo.poc.commons.custom.properties.cache.TimeToLive;
-import com.demo.poc.entrypoint.management.constants.CacheConstant;
 import com.demo.poc.commons.custom.cache.RedisManager;
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
 import com.demo.poc.entrypoint.management.enums.ClockSkew;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
-import com.demo.poc.entrypoint.management.utils.CacheUtils;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TokenCacheHelperV2 implements TokenCacheHelper {
+
+  private static final String CACHE_NAME = "tokens";
 
   private final ApplicationProperties properties;
   private final RedisTemplate<String, Object> redisTemplate;
@@ -33,7 +33,7 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   public TokenResponseWrapper getToken(Platform platform) {
     return Optional.of(redisManager.isRedisAvailable())
         .filter(isRedisAvailable -> isRedisAvailable)
-        .map(isRedisAvailable -> getTokenFromCacheIfPresent(platform, CacheUtils.buildCacheKey(platform)))
+        .map(isRedisAvailable -> getTokenFromCacheIfPresent(platform, buildCacheKey(platform)))
         .orElseGet(() -> this.selectRepository(platform, tokenRepositories).getToken());
   }
 
@@ -41,7 +41,7 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
     String tokenJson = Optional.ofNullable((String) redisTemplate.opsForValue().get(cacheKey))
         .orElseGet(() -> {
           TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken();
-          TimeToLive timeToLive = properties.getCache().get(CacheConstant.TOKEN_CACHE_NAME).getTimeToLive();
+          TimeToLive timeToLive = properties.searchCache(CACHE_NAME).getTimeToLive();
           Duration ttl = ClockSkew.getTtlWithClockSkew(tokenResponse, timeToLive);
           redisTemplate.opsForValue().set(cacheKey, gson.toJson(tokenResponse), ttl);
           return  (String) redisTemplate.opsForValue().get(cacheKey);
@@ -52,9 +52,13 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   @Override
   public void cleanToken(Platform platform) {
     if(redisManager.isRedisAvailable()) {
-      String cacheKey = CacheUtils.buildCacheKey(platform);
+      String cacheKey = buildCacheKey(platform);
       redisTemplate.delete(cacheKey);
     }
+  }
+
+  private String buildCacheKey(Platform platform) {
+    return properties.searchCache(CACHE_NAME).getKeyPrefix() + ":" + platform.name();
   }
 
   @Override
