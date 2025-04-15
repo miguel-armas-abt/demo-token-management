@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "b341b585-50f7-442c-a126-da6908a1abb9",
+		"name": "token-management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33527392"
+	},
+	"item": [
+		{
+			"name": "get-token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "platform",
+						"value": "APP",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8093/poc/token-management/v1/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8093",
+					"path": [
+						"poc",
+						"token-management",
+						"v1",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
