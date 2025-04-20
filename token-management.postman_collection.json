@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b341b585-50f7-442c-a126-da6908a1abb9",
-		"name": "token-management",
+		"name": "poc-token-management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33527392"
 	},
