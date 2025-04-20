@@ -1,6 +1,7 @@
 package com.demo.poc.entrypoint.management.helper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
@@ -20,13 +21,13 @@ public class TokenCacheHelperV1 implements TokenCacheHelper {
 
     @Cacheable(value = CACHE_KEY_PREFIX, key = "#platform")
     @Override
-    public TokenResponseWrapper getToken(Platform platform) {
-        return this.selectRepository(platform, tokenRepositories).getToken();
+    public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
+        return this.selectRepository(platform, tokenRepositories).getToken(headers);
     }
 
     @CacheEvict(value = CACHE_KEY_PREFIX, key = "#platform")
     @Override
-    public void cleanToken(Platform platform) {
+    public void cleanToken(Map<String, String> headers, Platform platform) {
     }
 
     @Override

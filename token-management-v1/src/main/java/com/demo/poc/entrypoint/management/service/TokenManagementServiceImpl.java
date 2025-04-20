@@ -1,6 +1,7 @@
 package com.demo.poc.entrypoint.management.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
@@ -18,12 +19,12 @@ public class TokenManagementServiceImpl implements TokenManagementService {
   private final ApplicationProperties properties;
 
   @Override
-  public TokenResponseWrapper getToken(Platform platform) {
-    return this.selectCacheHelper(tokenCacheHelpers, properties).getToken(platform);
+  public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
+    return this.selectCacheHelper(tokenCacheHelpers, properties).getToken(headers, platform);
   }
 
   @Override
-  public void cleanToken(Platform platform) {
-    this.selectCacheHelper(tokenCacheHelpers, properties).cleanToken(platform);
+  public void cleanToken(Map<String, String> headers, Platform platform) {
+    this.selectCacheHelper(tokenCacheHelpers, properties).cleanToken(headers, platform);
   }
 }

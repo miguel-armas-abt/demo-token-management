@@ -1,6 +1,7 @@
 package com.demo.poc.entrypoint.management.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.exceptions.NoSuchTokenCacheHelperException;
@@ -10,9 +11,9 @@ import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrappe
 
 public interface TokenManagementService {
 
-  TokenResponseWrapper getToken(Platform platform);
+  TokenResponseWrapper getToken(Map<String, String> headers, Platform platform);
 
-  void cleanToken(Platform platform);
+  void cleanToken(Map<String, String> headers, Platform platform);
 
   default TokenCacheHelper selectCacheHelper(List<TokenCacheHelper> tokenCacheHelpers,
                                              ApplicationProperties properties) {

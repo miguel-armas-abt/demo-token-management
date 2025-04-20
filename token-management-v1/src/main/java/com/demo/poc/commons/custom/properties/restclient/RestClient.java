@@ -10,7 +10,8 @@ import java.util.Map;
 public class RestClient {
 
   private String endpoint;
-  private Map<String, String> headers;
+  private HeaderTemplate headers;
   private Map<String, String> formData;
+  private PerformanceTemplate performance;
 
 }

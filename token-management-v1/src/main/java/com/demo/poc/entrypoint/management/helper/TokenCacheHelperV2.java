@@ -2,6 +2,7 @@ package com.demo.poc.entrypoint.management.helper;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.demo.poc.commons.custom.properties.cache.TimeToLive;
@@ -30,17 +31,17 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   private final Gson gson;
 
   @Override
-  public TokenResponseWrapper getToken(Platform platform) {
+  public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
     return Optional.of(redisManager.isRedisAvailable())
         .filter(isRedisAvailable -> isRedisAvailable)
-        .map(isRedisAvailable -> getTokenFromCacheIfPresent(platform, buildCacheKey(platform)))
-        .orElseGet(() -> this.selectRepository(platform, tokenRepositories).getToken());
+        .map(isRedisAvailable -> getTokenFromCacheIfPresent(headers, platform, buildCacheKey(platform)))
+        .orElseGet(() -> this.selectRepository(platform, tokenRepositories).getToken(headers));
   }
 
-  private TokenResponseWrapper getTokenFromCacheIfPresent(Platform platform, String cacheKey) {
+  private TokenResponseWrapper getTokenFromCacheIfPresent(Map<String, String> headers, Platform platform, String cacheKey) {
     String tokenJson = Optional.ofNullable((String) redisTemplate.opsForValue().get(cacheKey))
         .orElseGet(() -> {
-          TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken();
+          TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken(headers);
           TimeToLive timeToLive = properties.searchCache(CACHE_NAME).getTimeToLive();
           Duration ttl = ClockSkew.getTtlWithClockSkew(tokenResponse, timeToLive);
           redisTemplate.opsForValue().set(cacheKey, gson.toJson(tokenResponse), ttl);
@@ -50,7 +51,7 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   }
 
   @Override
-  public void cleanToken(Platform platform) {
+  public void cleanToken(Map<String, String> headers, Platform platform) {
     if(redisManager.isRedisAvailable()) {
       String cacheKey = buildCacheKey(platform);
       redisTemplate.delete(cacheKey);
