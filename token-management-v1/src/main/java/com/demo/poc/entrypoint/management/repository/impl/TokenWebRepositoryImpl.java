@@ -2,12 +2,12 @@ package com.demo.poc.entrypoint.management.repository.impl;
 
 import java.util.Map;
 
+import com.demo.poc.commons.core.properties.restclient.RestClient;
 import com.demo.poc.commons.core.restclient.RestClientTemplate;
 import com.demo.poc.commons.core.restclient.dto.ExchangeRequest;
 import com.demo.poc.commons.core.restclient.utils.HeadersFiller;
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
-import com.demo.poc.commons.custom.properties.restclient.RestClient;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +31,15 @@ public class TokenWebRepositoryImpl implements TokenRepository {
         RestClient restClient = properties.getRestClients().get(SERVICE_NAME);
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.setAll(restClient.getFormData());
+        requestBody.setAll(restClient.getRequest().getFormData());
 
         return restTemplate.exchange(
             ExchangeRequest.<MultiValueMap<String, String>, TokenResponseWrapper>builder()
-                .url(restClient.getEndpoint())
+                .url(restClient.getRequest().getEndpoint())
                 .httpMethod(HttpMethod.POST)
                 .requestBody(requestBody)
                 .responseClass(TokenResponseWrapper.class)
-                .headers(HeadersFiller.fillHeaders(restClient.getHeaders(), headers))
+                .headers(HeadersFiller.fillHeaders(restClient.getRequest().getHeaders(), headers))
                 .build(), SERVICE_NAME
         );
     }

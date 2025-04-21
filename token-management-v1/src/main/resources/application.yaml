@@ -26,23 +26,31 @@ configuration:
 
   rest-clients:
     web-security-v1:
-      endpoint: ${WEB_AUTH_V1_ENDPOINT:http://localhost:8021/poc/web/security/v1/token}
-      headers:
-        provided:
-          Authorization: ${WEB_AUTH_V1_HEADER_BASIC_AUTH:Basic d2ViLXVzZXI6d2ViLXBhc3N3b3Jk}
-          Ocp-Subscription-Key: ${WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY:web-subscription-key}
-          Content-Type: application/x-www-form-urlencoded
-      form-data:
-        grant_type: client_credentials
-        scope: all
+      request:
+        endpoint: ${WEB_AUTH_V1_ENDPOINT:http://localhost:8021/poc/web/security/v1/token}
+        headers:
+          provided:
+            Authorization: ${WEB_AUTH_V1_HEADER_BASIC_AUTH:Basic d2ViLXVzZXI6d2ViLXBhc3N3b3Jk}
+            Ocp-Subscription-Key: ${WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY:web-subscription-key}
+            Content-Type: application/x-www-form-urlencoded
+        form-data:
+          grant_type: client_credentials
+          scope: all
+      performance:
+        timeout: GOOD
+        concurrency: MEDIUM
 
     app-security-v1:
-      endpoint: ${APP_AUTH_V1_ENDPOINT:http://localhost:8021/poc/app/security/v1/token}
-      headers:
-        provided:
-          Authorization: ${APP_AUTH_V1_HEADER_BASIC_AUTH:Basic YXBwLXVzZXI6YXBwLXBhc3N3b3Jk}
-          Ocp-Subscription-Key: ${APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY:app-subscription-key}
-          Content-Type: application/x-www-form-urlencoded
-      form-data:
-        grant_type: client_credentials
-        scope: all
+      request:
+        endpoint: ${APP_AUTH_V1_ENDPOINT:http://localhost:8021/poc/app/security/v1/token}
+        headers:
+          provided:
+            Authorization: ${APP_AUTH_V1_HEADER_BASIC_AUTH:Basic YXBwLXVzZXI6YXBwLXBhc3N3b3Jk}
+            Ocp-Subscription-Key: ${APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY:app-subscription-key}
+            Content-Type: application/x-www-form-urlencoded
+        form-data:
+          grant_type: client_credentials
+          scope: all
+      performance:
+        timeout: GOOD
+        concurrency: MEDIUM

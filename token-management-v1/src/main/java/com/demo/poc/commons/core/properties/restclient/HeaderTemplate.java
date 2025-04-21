@@ -1,4 +1,4 @@
-package com.demo.poc.commons.custom.properties.restclient;
+package com.demo.poc.commons.core.properties.restclient;
 
 import com.demo.poc.commons.core.tracing.enums.TraceParamType;
 import lombok.Getter;

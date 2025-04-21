@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.demo.poc.commons.custom.properties.restclient.HeaderTemplate;
+import com.demo.poc.commons.core.properties.restclient.HeaderTemplate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

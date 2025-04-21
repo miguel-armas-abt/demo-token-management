@@ -2,7 +2,7 @@ package com.demo.poc.commons.core.restclient.utils;
 
 import java.util.Map;
 
-import com.demo.poc.commons.custom.properties.restclient.HeaderTemplate;
+import com.demo.poc.commons.core.properties.restclient.HeaderTemplate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

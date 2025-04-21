@@ -7,6 +7,6 @@ import lombok.Getter;
 public class NoSuchCacheConfigException extends GenericException {
 
     public NoSuchCacheConfigException() {
-        super(ErrorDictionary.NO_SUCH_REST_CLIENT.getMessage(), ErrorDictionary.parse(NoSuchCacheConfigException.class));
+        super(ErrorDictionary.NO_SUCH_CACHE_CONFIG.getMessage(), ErrorDictionary.parse(NoSuchCacheConfigException.class));
     }
 }

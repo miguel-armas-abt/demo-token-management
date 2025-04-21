@@ -4,10 +4,10 @@ import java.util.Objects;
 
 import com.demo.poc.commons.core.errors.dto.ErrorDto;
 import com.demo.poc.commons.core.errors.exceptions.RestClientException;
+import com.demo.poc.commons.core.properties.restclient.HeaderTemplate;
 import com.demo.poc.commons.core.restclient.dto.ExchangeRequest;
 import com.demo.poc.commons.core.restclient.utils.HttpHeadersFiller;
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
-import com.demo.poc.commons.custom.properties.restclient.HeaderTemplate;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,14 +29,14 @@ public class RestClientTemplate {
       return Objects.nonNull(request.getUriVariables())
           ? restTemplate.exchange(request.getUrl(),
               request.getHttpMethod(),
-              createHttpEntity(request, properties.getRestClients().get(serviceName).getHeaders()),
+              createHttpEntity(request, properties.getRestClients().get(serviceName).getRequest().getHeaders()),
               request.getResponseClass(),
               request.getUriVariables())
           .getBody()
 
           : restTemplate.exchange(request.getUrl(),
               request.getHttpMethod(),
-              createHttpEntity(request, properties.getRestClients().get(serviceName).getHeaders()),
+              createHttpEntity(request, properties.getRestClients().get(serviceName).getRequest().getHeaders()),
               request.getResponseClass())
           .getBody();
 
