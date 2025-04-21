@@ -12,7 +12,7 @@ public interface TokenCacheHelper {
 
   String TOKEN_CACHE_HELPER_SELECTOR = "token-cache-helper";
 
-  TokenResponseWrapper getToken(Map<String, String> headers,  Platform platform);
+  TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform);
 
   void cleanToken(Map<String, String> headers, Platform platform);
 

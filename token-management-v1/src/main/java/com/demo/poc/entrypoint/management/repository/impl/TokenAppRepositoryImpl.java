@@ -27,7 +27,7 @@ public class TokenAppRepositoryImpl implements TokenRepository {
     private final ApplicationProperties properties;
 
     @Override
-    public TokenResponseWrapper getToken(Map<String, String> headers) {
+    public TokenResponseWrapper generateToken(Map<String, String> headers) {
         RestClient restClient = properties.getRestClients().get(SERVICE_NAME);
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();

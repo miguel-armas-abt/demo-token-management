@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +28,13 @@ public class TokenManagementRestService {
   private final TokenManagementService tokenManagementService;
   private final HeaderValidator headerValidator;
 
-  @GetMapping
-  public ResponseEntity<TokenResponseWrapper> getToken(HttpServletRequest servletRequest,
-                                                       @RequestHeader(name = "platform") String platform) {
+  @PostMapping
+  public ResponseEntity<TokenResponseWrapper> generateToken(HttpServletRequest servletRequest,
+                                                            @RequestHeader(name = "platform") String platform) {
     Map<String, String> headers = ServerHeaderExtractor.extractHeadersAsMap(servletRequest);
     headerValidator.validate(headers, DefaultHeaders.class);
 
-    return ResponseEntity.ok(tokenManagementService.getToken(headers, Platform.parse(platform)));
+    return ResponseEntity.ok(tokenManagementService.generateToken(headers, Platform.parse(platform)));
   }
 
   @DeleteMapping

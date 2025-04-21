@@ -19,8 +19,8 @@ public class TokenManagementServiceImpl implements TokenManagementService {
   private final ApplicationProperties properties;
 
   @Override
-  public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
-    return this.selectCacheHelper(tokenCacheHelpers, properties).getToken(headers, platform);
+  public TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform) {
+    return this.selectCacheHelper(tokenCacheHelpers, properties).generateToken(headers, platform);
   }
 
   @Override

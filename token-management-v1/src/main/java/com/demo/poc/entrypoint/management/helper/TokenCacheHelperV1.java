@@ -21,8 +21,8 @@ public class TokenCacheHelperV1 implements TokenCacheHelper {
 
     @Cacheable(value = CACHE_KEY_PREFIX, key = "#platform")
     @Override
-    public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
-        return this.selectRepository(platform, tokenRepositories).getToken(headers);
+    public TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform) {
+        return this.selectRepository(platform, tokenRepositories).generateToken(headers);
     }
 
     @CacheEvict(value = CACHE_KEY_PREFIX, key = "#platform")

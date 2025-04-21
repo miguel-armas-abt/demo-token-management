@@ -7,7 +7,7 @@ import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrappe
 
 public interface TokenRepository {
 
-    TokenResponseWrapper getToken(Map<String, String> headers);
+    TokenResponseWrapper generateToken(Map<String, String> headers);
 
     boolean supports(Platform platform);
 }

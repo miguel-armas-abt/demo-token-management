@@ -31,17 +31,17 @@ public class TokenCacheHelperV2 implements TokenCacheHelper {
   private final Gson gson;
 
   @Override
-  public TokenResponseWrapper getToken(Map<String, String> headers, Platform platform) {
+  public TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform) {
     return Optional.of(redisManager.isRedisAvailable())
         .filter(isRedisAvailable -> isRedisAvailable)
         .map(isRedisAvailable -> getTokenFromCacheIfPresent(headers, platform, buildCacheKey(platform)))
-        .orElseGet(() -> this.selectRepository(platform, tokenRepositories).getToken(headers));
+        .orElseGet(() -> this.selectRepository(platform, tokenRepositories).generateToken(headers));
   }
 
   private TokenResponseWrapper getTokenFromCacheIfPresent(Map<String, String> headers, Platform platform, String cacheKey) {
     String tokenJson = Optional.ofNullable((String) redisTemplate.opsForValue().get(cacheKey))
         .orElseGet(() -> {
-          TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).getToken(headers);
+          TokenResponseWrapper tokenResponse = this.selectRepository(platform, tokenRepositories).generateToken(headers);
           TimeToLive timeToLive = properties.searchCache(CACHE_NAME).getTimeToLive();
           Duration ttl = ClockSkew.getTtlWithClockSkew(tokenResponse, timeToLive);
           redisTemplate.opsForValue().set(cacheKey, gson.toJson(tokenResponse), ttl);

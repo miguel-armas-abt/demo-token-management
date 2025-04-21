@@ -11,7 +11,7 @@ import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrappe
 
 public interface TokenManagementService {
 
-  TokenResponseWrapper getToken(Map<String, String> headers, Platform platform);
+  TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform);
 
   void cleanToken(Map<String, String> headers, Platform platform);
 

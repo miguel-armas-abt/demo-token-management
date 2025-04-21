@@ -9,8 +9,23 @@
 		{
 			"name": "get-token",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
+					{
+						"key": "timestamp",
+						"value": "{{$isoTimestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "trace-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "channel-id",
+						"value": "APP",
+						"type": "text"
+					},
 					{
 						"key": "platform",
 						"value": "APP",
