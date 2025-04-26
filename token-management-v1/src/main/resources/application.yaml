@@ -33,6 +33,12 @@ configuration:
             Authorization: ${WEB_AUTH_V1_HEADER_BASIC_AUTH:Basic d2ViLXVzZXI6d2ViLXBhc3N3b3Jk}
             Ocp-Subscription-Key: ${WEB_AUTH_V1_HEADER_SUBSCRIPTION_KEY:web-subscription-key}
             Content-Type: application/x-www-form-urlencoded
+          forwarded:
+            channelId: channelId
+          auto-generated:
+            timestamp: TIMESTAMP
+          tracing:
+            traceParent: TRACE_PARENT
         form-data:
           grant_type: client_credentials
           scope: all
@@ -48,6 +54,12 @@ configuration:
             Authorization: ${APP_AUTH_V1_HEADER_BASIC_AUTH:Basic YXBwLXVzZXI6YXBwLXBhc3N3b3Jk}
             Ocp-Subscription-Key: ${APP_AUTH_V1_HEADER_SUBSCRIPTION_KEY:app-subscription-key}
             Content-Type: application/x-www-form-urlencoded
+          forwarded:
+            channelId: channelId
+          auto-generated:
+            timestamp: TIMESTAMP
+          tracing:
+            traceParent: TRACE_PARENT
         form-data:
           grant_type: client_credentials
           scope: all
