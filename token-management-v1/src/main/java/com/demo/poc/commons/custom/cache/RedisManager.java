@@ -2,8 +2,6 @@ package com.demo.poc.commons.custom.cache;
 
 import com.demo.poc.commons.custom.properties.ApplicationProperties;
 import com.demo.poc.commons.custom.properties.cache.TimeToLive;
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.cache.Cache;
@@ -21,16 +19,17 @@ import java.util.Map;
 import static com.demo.poc.commons.custom.properties.cache.TimeToLive.FIVE_MINUTES;
 
 @Slf4j
-@RequiredArgsConstructor
 public class RedisManager implements CacheManager {
 
   private final RedisConnectionFactory redisConnectionFactory;
   private final ApplicationProperties properties;
-  private RedisCacheManager redisCacheManager;
+  private final RedisCacheManager redisCacheManager;
 
-  @PostConstruct
-  public void init() {
-    redisCacheManager = createRedisCacheManager();
+  public RedisManager(RedisConnectionFactory redisConnectionFactory,
+                      ApplicationProperties properties) {
+    this.properties = properties;
+    this.redisConnectionFactory = redisConnectionFactory;
+    this.redisCacheManager = createRedisCacheManager();
   }
 
   @Override
