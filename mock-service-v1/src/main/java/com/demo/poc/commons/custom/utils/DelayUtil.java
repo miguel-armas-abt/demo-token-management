@@ -1,11 +1,11 @@
-package com.demo.poc.commons.utils;
+package com.demo.poc.commons.custom.utils;
 
 import java.util.concurrent.ThreadLocalRandom;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DelayGenerator {
+public class DelayUtil {
 
   private static final double EXPONENTIAL_SCALE = 250;
 

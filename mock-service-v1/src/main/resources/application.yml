@@ -5,11 +5,6 @@ server:
 spring:
   application:
     name: mock-service-v1
-  profiles:
-    active: ${PROFILE:dev}
-  main:
-    lazy-initialization: false
-    allow-bean-definition-overriding: true
   reactor:
     debug-agent:
       enabled: true

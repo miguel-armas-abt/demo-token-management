@@ -1,4 +1,4 @@
-package com.demo.poc.commons.config;
+package com.demo.poc.commons.custom.config;
 
 import org.mockserver.integration.ClientAndServer;
 

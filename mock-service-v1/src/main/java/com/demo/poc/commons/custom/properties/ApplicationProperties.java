@@ -1,4 +1,4 @@
-package com.demo.poc.commons.properties;
+package com.demo.poc.commons.custom.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,6 @@
-package com.demo.poc.commons.config;
+package com.demo.poc.commons.custom.config;
 
-import com.demo.poc.commons.properties.ApplicationProperties;
+import com.demo.poc.commons.custom.properties.ApplicationProperties;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.io.IOException;
