@@ -1,0 +1,25 @@
+services:
+  redis-v7:
+    image: redis:7
+    container_name: redis-v7
+    ports:
+      - "6379:6379"
+    networks:
+      - common-network
+
+  token-management-v1:
+    image: miguelarmasabt/token-management:v1.0.1
+    container_name: token-management-v1
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./variables.env
+    depends_on:
+      - redis-v7
+    networks:
+      - common-network
+
+networks:
+  common-network:
+    driver: bridge
+    external: true
