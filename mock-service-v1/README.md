@@ -52,16 +52,16 @@ docker build -t miguelarmasabt/mock-service:v1.0.1 -f ./Dockerfile .
 
 ⚙️ Crear namespace y aplicar manifiestos
 ```shell
-kubectl create namespace oauth
-kubectl apply -f ./k8s.yaml -n oauth
+kubectl create namespace poc
+kubectl apply -f ./k8s.yaml -n poc
 ```
 
 ⚙️ Eliminar orquestación
 ```shell
-kubectl delete -f ./k8s.yaml -n oauth
+kubectl delete -f ./k8s.yaml -n poc
 ```
 
 ⚙️ Port-forward
 ```shell
-kubectl port-forward <pod-id> 8082:8082 -n oauth
+kubectl port-forward <pod-id> 8082:8082 -n poc
 ```

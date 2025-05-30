@@ -58,18 +58,18 @@ docker pull redis:7
 
 ⚙️ Crear namespace y aplicar manifiestos
 ```shell
-kubectl create namespace oauth
-kubectl apply -f ./k8s.yaml -n oauth
-kubectl apply -f ./k8s-redis.yaml -n oauth
+kubectl create namespace poc
+kubectl apply -f ./k8s.yaml -n poc
+kubectl apply -f ./k8s-redis.yaml -n poc
 ```
 
 ⚙️ Eliminar orquestación
 ```shell
-kubectl delete -f ./k8s.yaml -n oauth
-kubectl delete -f ./k8s-redis.yaml -n oauth
+kubectl delete -f ./k8s.yaml -n poc
+kubectl delete -f ./k8s-redis.yaml -n poc
 ```
 
 ⚙️ Port-forward
 ```shell
-kubectl port-forward <pod-id> 8080:8080 -n oauth
+kubectl port-forward <pod-id> 8080:8080 -n poc
 ```
