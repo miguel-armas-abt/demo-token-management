@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.demo.poc.entrypoint.management.enums.Platform;
-import com.demo.poc.commons.custom.exceptions.NoSuchTokenCacheHelperException;
-import com.demo.poc.commons.custom.properties.ApplicationProperties;
+import com.demo.poc.entrypoint.management.exceptions.NoSuchTokenCacheHelperException;
+import com.demo.poc.commons.properties.ApplicationProperties;
 import com.demo.poc.entrypoint.management.helper.TokenCacheHelper;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.demo.poc.commons.custom.properties.cache.TimeToLive;
-import com.demo.poc.commons.custom.cache.RedisManager;
+import com.demo.poc.commons.properties.cache.TimeToLive;
+import com.demo.poc.commons.cache.RedisManager;
 import com.demo.poc.entrypoint.management.enums.Platform;
-import com.demo.poc.commons.custom.properties.ApplicationProperties;
+import com.demo.poc.commons.properties.ApplicationProperties;
 import com.demo.poc.entrypoint.management.enums.ClockSkew;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;

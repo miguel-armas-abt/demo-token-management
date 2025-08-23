@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 
-import com.demo.poc.commons.custom.properties.cache.TimeToLive;
+import com.demo.poc.commons.properties.cache.TimeToLive;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

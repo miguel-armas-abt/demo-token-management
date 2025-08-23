@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.demo.poc.entrypoint.management.enums.Platform;
-import com.demo.poc.commons.custom.exceptions.NoSuchTokenRepositoryException;
+import com.demo.poc.entrypoint.management.exceptions.NoSuchTokenRepositoryException;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 

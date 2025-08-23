@@ -2,17 +2,15 @@ package com.demo.poc.entrypoint.management.repository.impl;
 
 import java.util.Map;
 
+import com.demo.poc.commons.core.errors.dto.ErrorDto;
 import com.demo.poc.commons.core.properties.restclient.RestClient;
 import com.demo.poc.commons.core.restclient.RestClientTemplate;
-import com.demo.poc.commons.core.restclient.dto.ExchangeRequest;
-import com.demo.poc.commons.core.restclient.utils.HeadersFiller;
-import com.demo.poc.commons.custom.properties.ApplicationProperties;
+import com.demo.poc.commons.properties.ApplicationProperties;
 import com.demo.poc.entrypoint.management.enums.Platform;
 import com.demo.poc.entrypoint.management.repository.TokenRepository;
 import com.demo.poc.entrypoint.management.repository.wrapper.TokenResponseWrapper;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,15 +31,13 @@ public class TokenAppRepositoryImpl implements TokenRepository {
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.setAll(restClient.getRequest().getFormData());
 
-        return restTemplate.exchange(
-            ExchangeRequest.<MultiValueMap<String, String>, TokenResponseWrapper>builder()
-                .url(restClient.getRequest().getEndpoint())
-                .httpMethod(HttpMethod.POST)
-                .requestBody(requestBody)
-                .responseClass(TokenResponseWrapper.class)
-                .headers(HeadersFiller.fillHeaders(restClient.getRequest().getHeaders(), headers))
-                .build(), SERVICE_NAME
-        );
+        return restTemplate
+            .service(SERVICE_NAME)
+            .post()
+            .uri(restClient.getRequest().getEndpoint())
+            .headers(headers)
+            .body(requestBody)
+            .retrieve(TokenResponseWrapper.class, ErrorDto.class);
     }
 
     @Override

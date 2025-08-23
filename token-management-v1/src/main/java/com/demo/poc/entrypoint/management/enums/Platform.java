@@ -2,7 +2,7 @@ package com.demo.poc.entrypoint.management.enums;
 
 import java.util.Arrays;
 
-import com.demo.poc.commons.custom.exceptions.InvalidPlatformException;
+import com.demo.poc.entrypoint.management.exceptions.InvalidPlatformException;
 
 public enum Platform {
     WEB,

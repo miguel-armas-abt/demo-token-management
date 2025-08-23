@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: customer-v1
+    name: token-management-v1
   data:
     redis:
       host: ${REDIS_DOMAIN:localhost}
