@@ -1,0 +1,30 @@
+package com.demo.service.entrypoint.management.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.demo.service.entrypoint.management.enums.Platform;
+import com.demo.service.commons.properties.ApplicationProperties;
+import com.demo.service.entrypoint.management.helper.TokenCacheHelper;
+import com.demo.service.entrypoint.management.repository.wrapper.TokenResponseWrapper;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class TokenManagementServiceImpl implements TokenManagementService {
+
+  private final List<TokenCacheHelper> tokenCacheHelpers;
+  private final ApplicationProperties properties;
+
+  @Override
+  public TokenResponseWrapper generateToken(Map<String, String> headers, Platform platform) {
+    return this.selectCacheHelper(tokenCacheHelpers, properties).generateToken(headers, platform);
+  }
+
+  @Override
+  public void cleanToken(Map<String, String> headers, Platform platform) {
+    this.selectCacheHelper(tokenCacheHelpers, properties).cleanToken(headers, platform);
+  }
+}
