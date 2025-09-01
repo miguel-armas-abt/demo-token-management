@@ -2,7 +2,6 @@ package com.demo.service.entrypoint.management.rest;
 
 import java.util.Map;
 
-import com.demo.commons.restserver.utils.RestServerUtils;
 import com.demo.commons.validations.ParamValidator;
 import com.demo.service.entrypoint.management.enums.Platform;
 import com.demo.service.entrypoint.management.params.clean.CleanTokenHeader;
@@ -26,20 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class TokenManagementRestService {
 
   private final TokenManagementService tokenManagementService;
-  private final ParamValidator headerValidator;
+  private final ParamValidator paramValidator;
 
   @PostMapping
   public ResponseEntity<TokenResponseWrapper> generateToken(HttpServletRequest servletRequest) {
-    Map<String, String> headers = RestServerUtils.extractHeadersAsMap(servletRequest);
-    GenerateTokenHeader generateTokenHeader = headerValidator.validateAndGet(headers, GenerateTokenHeader.class);
-    return ResponseEntity.ok(tokenManagementService.generateToken(headers, Platform.parse(generateTokenHeader.getPlatform())));
+    Map.Entry<GenerateTokenHeader, Map<String, String>> headersEntry = paramValidator.validateHeadersAndGet(servletRequest, GenerateTokenHeader.class);
+    return ResponseEntity.ok(tokenManagementService.generateToken(headersEntry.getValue(), Platform.parse(headersEntry.getKey().getPlatform())));
   }
 
   @DeleteMapping
   public ResponseEntity<?> cleanToken(HttpServletRequest servletRequest) {
-    Map<String, String> headers = RestServerUtils.extractHeadersAsMap(servletRequest);
-    CleanTokenHeader cleanTokenHeader = headerValidator.validateAndGet(headers, CleanTokenHeader.class);
-    tokenManagementService.cleanToken(headers, Platform.parse(cleanTokenHeader.getPlatform()));
+    Map.Entry<CleanTokenHeader, Map<String, String>> headersEntry = paramValidator.validateHeadersAndGet(servletRequest, CleanTokenHeader.class);
+    tokenManagementService.cleanToken(headersEntry.getValue(), Platform.parse(headersEntry.getKey().getPlatform()));
     return ResponseEntity.noContent().build();
   }
 }

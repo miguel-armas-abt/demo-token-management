@@ -22,7 +22,7 @@ configuration:
       key-prefix: poc.tokens
 
   selector-class:
-    token-cache-helper: com.demo.poc.entrypoint.management.helper.TokenCacheHelperV2
+    token-cache-helper: com.demo.service.entrypoint.management.helper.TokenCacheHelperV2
 
   rest-clients:
     web-security-v1:
